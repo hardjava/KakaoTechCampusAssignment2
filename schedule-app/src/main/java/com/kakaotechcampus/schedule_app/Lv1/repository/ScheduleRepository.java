@@ -10,4 +10,5 @@ public interface ScheduleRepository {
     List<Schedule> findAll(String username, LocalDate modifiedAt);
     Schedule findByIdOrElseThrow(Long id);
     Schedule update(Schedule schedule);
+    void delete(Long id);
 }

@@ -74,4 +74,15 @@ public class ScheduleService {
                 updatedSchedule.getModifiedAt()
         );
     }
+
+    @Transactional
+    public void delete(Long id, String password){
+        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
+
+        if (!findSchedule.getPassword().equals(password)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Does Not Match Password");
+        }
+
+        scheduleRepository.delete(id);
+    }
 }
