@@ -75,7 +75,23 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         String sql = "SELECT * FROM schedule WHERE id = ?";
         List<Schedule> result = jdbcTemplate.query(sql, scheduleRowMapper(), id);
 
-        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid Schedule ID" + id));
+        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule Does Not Found [ID: " + id + "]"));
+    }
+
+    @Override
+    public Schedule update(Schedule schedule) {
+        schedule.setModifiedAt(LocalDateTime.now());
+        String sql = "UPDATE schedule SET username = ?, contents =?, modified_at = ? WHERE id = ?";
+
+        jdbcTemplate.update(
+                sql,
+                schedule.getUsername(),
+                schedule.getContents(),
+                schedule.getModifiedAt(),
+                schedule.getId()
+                );
+
+        return schedule;
     }
 
     private RowMapper<Schedule> scheduleRowMapper() {
@@ -86,6 +102,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
                         rs.getLong("id"),
                         rs.getString("username"),
                         rs.getString("contents"),
+                        rs.getString("password"),
                         rs.getTimestamp("created_at").toLocalDateTime(),
                         rs.getTimestamp("modified_at").toLocalDateTime()
                 );
