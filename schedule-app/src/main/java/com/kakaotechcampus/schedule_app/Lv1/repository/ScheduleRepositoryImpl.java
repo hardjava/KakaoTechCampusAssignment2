@@ -1,13 +1,13 @@
 package com.kakaotechcampus.schedule_app.Lv1.repository;
 
-import com.kakaotechcampus.schedule_app.Lv1.dto.ScheduleResponseDto;
-import com.kakaotechcampus.schedule_app.Lv1.dto.ScheduleWithDateResponseDto;
 import com.kakaotechcampus.schedule_app.Lv1.entity.Schedule;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.sql.DataSource;
 import java.sql.Date;
@@ -68,6 +68,14 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         sql += " ORDER BY modified_at DESC";
 
         return jdbcTemplate.query(sql, scheduleRowMapper(), params.toArray());
+    }
+
+    @Override
+    public Schedule findByIdOrElseThrow(Long id) {
+        String sql = "SELECT * FROM schedule WHERE id = ?";
+        List<Schedule> result = jdbcTemplate.query(sql, scheduleRowMapper(), id);
+
+        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid Schedule ID" + id));
     }
 
     private RowMapper<Schedule> scheduleRowMapper() {

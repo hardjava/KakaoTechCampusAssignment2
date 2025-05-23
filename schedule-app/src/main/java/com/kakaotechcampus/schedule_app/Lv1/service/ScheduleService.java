@@ -28,4 +28,16 @@ public class ScheduleService {
                 .map(ScheduleWithDateResponseDto::toDto)
                 .toList();
     }
+
+    public ScheduleWithDateResponseDto findById(Long id){
+        Schedule savedSchedule = scheduleRepository.findByIdOrElseThrow(id);
+
+        return new ScheduleWithDateResponseDto(
+                savedSchedule.getId(),
+                savedSchedule.getUsername(),
+                savedSchedule.getContents(),
+                savedSchedule.getCreatedAt(),
+                savedSchedule.getModifiedAt()
+        );
+    }
 }
