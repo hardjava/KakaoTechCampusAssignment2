@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -40,5 +39,12 @@ public class ScheduleController {
         List<ScheduleWithDateResponseDto> scheduleWithDateResponseDtoList = scheduleService.findAll(username, modifiedAt);
 
         return new ResponseEntity<>(scheduleWithDateResponseDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ScheduleWithDateResponseDto> findById(@PathVariable Long id){
+        ScheduleWithDateResponseDto scheduleWithDateResponseDto = scheduleService.findById(id);
+
+        return new ResponseEntity<>(scheduleWithDateResponseDto, HttpStatus.OK);
     }
 }
