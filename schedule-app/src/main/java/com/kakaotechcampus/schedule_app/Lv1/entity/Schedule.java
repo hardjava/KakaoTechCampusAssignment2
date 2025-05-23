@@ -1,5 +1,6 @@
 package com.kakaotechcampus.schedule_app.Lv1.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -18,5 +19,13 @@ public class Schedule {
         this.username = username;
         this.contents = contents;
         this.password = password;
+    }
+
+    public Schedule(Long id, String username, String contents, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+        this.id = id;
+        this.username = username;
+        this.contents = contents;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
     }
 }
