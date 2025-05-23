@@ -11,3 +11,7 @@ CREATE TABLE schedule
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date created',
     modified_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date modified'
 );
+
+
+select *
+from schedule;
