@@ -3,6 +3,7 @@ package com.kakaotechcampus.schedule_app.Lv1.controller;
 import com.kakaotechcampus.schedule_app.Lv1.dto.CreateScheduleRequestDto;
 import com.kakaotechcampus.schedule_app.Lv1.dto.ScheduleResponseDto;
 import com.kakaotechcampus.schedule_app.Lv1.dto.ScheduleWithDateResponseDto;
+import com.kakaotechcampus.schedule_app.Lv1.dto.UpdateScheduleRequestDto;
 import com.kakaotechcampus.schedule_app.Lv1.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,6 +45,16 @@ public class ScheduleController {
     @GetMapping("/{id}")
     public ResponseEntity<ScheduleWithDateResponseDto> findById(@PathVariable Long id){
         ScheduleWithDateResponseDto scheduleWithDateResponseDto = scheduleService.findById(id);
+
+        return new ResponseEntity<>(scheduleWithDateResponseDto, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ScheduleWithDateResponseDto> updateSchedule(
+            @PathVariable Long id,
+            @RequestBody UpdateScheduleRequestDto requestDto
+            ){
+        ScheduleWithDateResponseDto scheduleWithDateResponseDto = scheduleService.update(id, requestDto.getPassword(), requestDto.getUsername(), requestDto.getContents());
 
         return new ResponseEntity<>(scheduleWithDateResponseDto, HttpStatus.OK);
     }

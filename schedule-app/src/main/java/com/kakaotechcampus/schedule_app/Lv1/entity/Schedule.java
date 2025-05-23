@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
+@AllArgsConstructor
 public class Schedule {
     private Long id;
     private String username;
@@ -26,6 +27,18 @@ public class Schedule {
         this.username = username;
         this.contents = contents;
         this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
+
+    public void setModifiedAt(LocalDateTime modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
 }

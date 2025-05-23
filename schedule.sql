@@ -8,19 +8,18 @@ CREATE TABLE schedule
     username VARCHAR(50) NOT NULL COMMENT 'author name',
     contents TEXT NOT NULL COMMENT 'to do content',
     password VARCHAR(50) NOT NULL COMMENT 'password',
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date created',
-    modified_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date modified'
+    created_at DATETIME NOT NULL COMMENT 'date created',
+    modified_at DATETIME NOT NULL COMMENT 'date modified'
 );
 
+-- drop talbe
+DROP TABLE schedule;
 
-
+-- select all
 select *
 from schedule;
 
-select *
-from schedule
-order by modified_at desc;
-
+-- select all using condition and descending by modified_at
 select *
 from schedule
 where 1=1 and date(modified_at) = "2025-05-23"
