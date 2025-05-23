@@ -1,9 +1,6 @@
 package com.kakaotechcampus.schedule_app.Lv1.controller;
 
-import com.kakaotechcampus.schedule_app.Lv1.dto.CreateScheduleRequestDto;
-import com.kakaotechcampus.schedule_app.Lv1.dto.ScheduleResponseDto;
-import com.kakaotechcampus.schedule_app.Lv1.dto.ScheduleWithDateResponseDto;
-import com.kakaotechcampus.schedule_app.Lv1.dto.UpdateScheduleRequestDto;
+import com.kakaotechcampus.schedule_app.Lv1.dto.*;
 import com.kakaotechcampus.schedule_app.Lv1.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -57,5 +54,14 @@ public class ScheduleController {
         ScheduleWithDateResponseDto scheduleWithDateResponseDto = scheduleService.update(id, requestDto.getPassword(), requestDto.getUsername(), requestDto.getContents());
 
         return new ResponseEntity<>(scheduleWithDateResponseDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(
+            @PathVariable Long id,
+            @RequestBody DeleteScheduleRequestDto requestDto){
+        scheduleService.delete(id, requestDto.getPassword());
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
