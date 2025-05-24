@@ -9,4 +9,6 @@ import java.util.List;
 public interface ScheduleRepository {
     Schedule createSchedule(Schedule schedule);
     List<ScheduleWithAuthor> findAll(Long authorId, LocalDate modifiedAt);
+    Schedule findScheduleByIdOrElseThrow(Long id);
+    Schedule updateSchedule(Schedule schedule);
 }

@@ -21,4 +21,12 @@ public class Schedule {
         this.contents = contents;
         this.password = password;
     }
+
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
+
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
 }

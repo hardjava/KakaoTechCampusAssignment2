@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 public class ScheduleWithAuthorResponseDto {
-    private Long authorId;
-    private String name;
-    private String email;
-    private String contents;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    private final Long authorId;
+    private final String name;
+    private final String email;
+    private final String contents;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime modifiedAt;
 
     public static ScheduleWithAuthorResponseDto toDto(ScheduleWithAuthor scheduleWithAuthor){
         return new ScheduleWithAuthorResponseDto(

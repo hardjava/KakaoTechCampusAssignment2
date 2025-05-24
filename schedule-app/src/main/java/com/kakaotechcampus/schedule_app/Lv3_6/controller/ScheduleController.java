@@ -1,8 +1,6 @@
 package com.kakaotechcampus.schedule_app.Lv3_6.controller;
 
-import com.kakaotechcampus.schedule_app.Lv3_6.dto.CreateScheduleRequestDto;
-import com.kakaotechcampus.schedule_app.Lv3_6.dto.ScheduleWithAuthorIdResponseDto;
-import com.kakaotechcampus.schedule_app.Lv3_6.dto.ScheduleWithAuthorResponseDto;
+import com.kakaotechcampus.schedule_app.Lv3_6.dto.*;
 import com.kakaotechcampus.schedule_app.Lv3_6.service.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,5 +37,15 @@ public class ScheduleController {
         List<ScheduleWithAuthorResponseDto> list = scheduleService.findAll(authorId, modifiedAt);
 
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateScheduleRequestDto requestDto){
+
+        ScheduleResponseDto responseDto = scheduleService.updateSchedule(id, requestDto.getPassword(), requestDto.getContents());
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }

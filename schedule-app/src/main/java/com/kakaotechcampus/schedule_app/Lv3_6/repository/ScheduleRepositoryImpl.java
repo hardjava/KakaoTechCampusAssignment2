@@ -2,11 +2,13 @@ package com.kakaotechcampus.schedule_app.Lv3_6.repository;
 
 import com.kakaotechcampus.schedule_app.Lv3_6.entity.Schedule;
 import com.kakaotechcampus.schedule_app.Lv3_6.entity.ScheduleWithAuthor;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.sql.DataSource;
 import java.sql.Date;
@@ -71,6 +73,44 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
 
         return jdbcTemplate.query(sql, scheduleWithAuthorRowMapper(), params.toArray());
     }
+
+    @Override
+    public Schedule findScheduleByIdOrElseThrow(Long id) {
+        String sql = "SELECT * FROM schedule WHERE id = ?";
+        List<Schedule> result = jdbcTemplate.query(sql, scheduleRowMapper(), id);
+
+        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule Does Not Found [ID: " + id + "]"));
+    }
+
+    @Override
+    public Schedule updateSchedule(Schedule schedule) {
+        String sql = "UPDATE schedule SET contents = ?, modified_at = ? WHERE id = ?";
+        schedule.setModifiedAt(LocalDateTime.now());
+
+        jdbcTemplate.update(sql,
+                schedule.getContents(),
+                schedule.getModifiedAt(),
+                schedule.getId());
+
+        return schedule;
+    }
+
+    private RowMapper<Schedule> scheduleRowMapper(){
+        return new RowMapper<Schedule>() {
+            @Override
+            public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new Schedule(
+                        rs.getLong("id"),
+                        rs.getLong("author_id"),
+                        rs.getString("contents"),
+                        rs.getString("password"),
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getTimestamp("modified_at").toLocalDateTime()
+                );
+            }
+        };
+    }
+
 
     private RowMapper<ScheduleWithAuthor> scheduleWithAuthorRowMapper(){
         return new RowMapper<ScheduleWithAuthor>() {
