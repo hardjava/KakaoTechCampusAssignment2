@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +39,17 @@ public class MyExceptionHandler {
     // Field Not Allowed Exception
     @ExceptionHandler(UnrecognizedPropertyException.class)
     public ResponseEntity<Map<String, String>> handleUnknownFieldError(UnrecognizedPropertyException e){
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("message", "Contains field that is not allowed"));
+    }
+
+    // Response Status Exception
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Map<String, String>> handleResponseStatusError(ResponseStatusException e){
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", e.getReason());
+
+        return ResponseEntity.status(e.getStatusCode()).body(errors);
     }
 }
