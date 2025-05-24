@@ -58,4 +58,14 @@ public class ScheduleController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/paging")
+    public ResponseEntity<List<ScheduleWithAuthorResponseDto>> findSchedulesUsingPaging(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size){
+
+        List<ScheduleWithAuthorResponseDto> paging = scheduleService.findSchedulesUsingPaging(page, size);
+
+        return new ResponseEntity<>(paging, HttpStatus.OK);
+    }
 }

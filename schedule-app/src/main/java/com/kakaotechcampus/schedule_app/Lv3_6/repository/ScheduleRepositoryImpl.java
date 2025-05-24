@@ -52,10 +52,12 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
 
     @Override
     public List<ScheduleWithAuthor> findAll(Long authorId, LocalDate modifiedAt) {
-        String sql = "SELECT s.author_id, a.name, a.email, s.contents, s.created_at, s.modified_at " +
-                        "FROM schedule s " +
-                        "JOIN author a ON s.author_id = a.id " +
-                        "WHERE 1=1";
+        String sql = """
+            SELECT s.author_id, a.name, a.email, s.contents, s.created_at, s.modified_at
+            FROM schedule s
+            JOIN author a ON s.author_id = a.id
+            WHERE 1=1
+        """;
 
         List<Object> params = new ArrayList<>();
 
@@ -100,6 +102,19 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         String sql = "DELETE FROM schedule WHERE id = ?";
 
         jdbcTemplate.update(sql, id);
+    }
+
+    @Override
+    public List<ScheduleWithAuthor> findSchedulesUsingPaging(int page, int size) {
+        String sql = """
+            SELECT s.author_id, a.name, a.email, s.contents, s.created_at, s.modified_at
+            FROM schedule s
+            JOIN author a ON s.author_id = a.id
+            ORDER BY s.modified_at DESC
+            LIMIT ? OFFSET ?
+        """;
+
+        return jdbcTemplate.query(sql, scheduleWithAuthorRowMapper(), size, (page - 1) * size);
     }
 
     private RowMapper<Schedule> scheduleRowMapper(){

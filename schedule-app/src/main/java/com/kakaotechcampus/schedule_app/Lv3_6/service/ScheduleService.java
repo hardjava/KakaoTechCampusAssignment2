@@ -5,6 +5,7 @@ import com.kakaotechcampus.schedule_app.Lv3_6.dto.ScheduleWithAuthorIdResponseDt
 import com.kakaotechcampus.schedule_app.Lv3_6.dto.ScheduleWithAuthorResponseDto;
 import com.kakaotechcampus.schedule_app.Lv3_6.entity.Author;
 import com.kakaotechcampus.schedule_app.Lv3_6.entity.Schedule;
+import com.kakaotechcampus.schedule_app.Lv3_6.entity.ScheduleWithAuthor;
 import com.kakaotechcampus.schedule_app.Lv3_6.repository.AuthorRepository;
 import com.kakaotechcampus.schedule_app.Lv3_6.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -73,5 +74,17 @@ public class ScheduleService {
         }
 
         scheduleRepository.deleteSchedule(id);
+    }
+
+    public List<ScheduleWithAuthorResponseDto> findSchedulesUsingPaging(int page, int size){
+
+        if (page < 0 || size < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "page and size must be greater than or equal to 0");
+        }
+        
+        return scheduleRepository.findSchedulesUsingPaging(page, size)
+                .stream()
+                .map(ScheduleWithAuthorResponseDto::toDto)
+                .toList();
     }
 }

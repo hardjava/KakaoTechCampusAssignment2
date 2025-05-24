@@ -12,4 +12,5 @@ public interface ScheduleRepository {
     Schedule findScheduleByIdOrElseThrow(Long id);
     Schedule updateSchedule(Schedule schedule);
     void deleteSchedule(Long id);
+    List<ScheduleWithAuthor> findSchedulesUsingPaging(int page, int size);
 }
