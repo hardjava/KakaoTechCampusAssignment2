@@ -11,4 +11,5 @@ public interface ScheduleRepository {
     List<ScheduleWithAuthor> findAll(Long authorId, LocalDate modifiedAt);
     Schedule findScheduleByIdOrElseThrow(Long id);
     Schedule updateSchedule(Schedule schedule);
+    void deleteSchedule(Long id);
 }
