@@ -7,8 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,5 +53,19 @@ public class MyExceptionHandler {
         errors.put("message", e.getReason());
 
         return ResponseEntity.status(e.getStatusCode()).body(errors);
+    }
+
+    // DateFormat Type Mismatch Error
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Map<String, String>> handleDateFormatError(MethodArgumentTypeMismatchException e){
+        if (e.getRequiredType() == LocalDate.class){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "Invalid Date Format. Please Use YYYY-MM-DD"));
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("message", "Invalid Request Parameter"));
     }
 }
