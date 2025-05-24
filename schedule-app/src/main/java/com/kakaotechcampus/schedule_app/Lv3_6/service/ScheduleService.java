@@ -1,6 +1,7 @@
 package com.kakaotechcampus.schedule_app.Lv3_6.service;
 
 import com.kakaotechcampus.schedule_app.Lv3_6.dto.ScheduleWithAuthorIdResponseDto;
+import com.kakaotechcampus.schedule_app.Lv3_6.dto.ScheduleWithAuthorResponseDto;
 import com.kakaotechcampus.schedule_app.Lv3_6.entity.Author;
 import com.kakaotechcampus.schedule_app.Lv3_6.entity.Schedule;
 import com.kakaotechcampus.schedule_app.Lv3_6.repository.AuthorRepository;
@@ -8,6 +9,9 @@ import com.kakaotechcampus.schedule_app.Lv3_6.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,5 +26,17 @@ public class ScheduleService {
         Schedule savedSchedule = scheduleRepository.createSchedule(schedule);
 
         return new ScheduleWithAuthorIdResponseDto(savedSchedule.getId(), findAuthor.getId(), schedule.getContents());
+    }
+
+    @Transactional
+    public List<ScheduleWithAuthorResponseDto> findAll(Long authorId, LocalDate modified_at){
+        if (authorId != null){
+            Author findAuthor = authorRepository.findAuthorByIdOrElseThrow(authorId);
+        }
+
+        return scheduleRepository.findAll(authorId, modified_at)
+                .stream()
+                .map(ScheduleWithAuthorResponseDto::toDto)
+                .toList();
     }
 }

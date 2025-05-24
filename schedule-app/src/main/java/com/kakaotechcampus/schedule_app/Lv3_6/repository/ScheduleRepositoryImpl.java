@@ -1,14 +1,22 @@
 package com.kakaotechcampus.schedule_app.Lv3_6.repository;
 
 import com.kakaotechcampus.schedule_app.Lv3_6.entity.Schedule;
+import com.kakaotechcampus.schedule_app.Lv3_6.entity.ScheduleWithAuthor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -38,5 +46,45 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
         return new Schedule(key.longValue(), schedule.getAuthorId(), schedule.getContents(), schedule.getPassword(), now, now);
+    }
+
+    @Override
+    public List<ScheduleWithAuthor> findAll(Long authorId, LocalDate modifiedAt) {
+        String sql = "SELECT s.author_id, a.name, a.email, s.contents, s.created_at, s.modified_at " +
+                        "FROM schedule s " +
+                        "JOIN author a ON s.author_id = a.id " +
+                        "WHERE 1=1";
+
+        List<Object> params = new ArrayList<>();
+
+        if (authorId != null) {
+            sql += " AND s.author_id = ?";
+            params.add(authorId);
+        }
+
+        if (modifiedAt != null) {
+            sql += " AND DATE(s.modified_at) = ?";
+            params.add(Date.valueOf(modifiedAt));
+        }
+
+        sql += " ORDER BY s.modified_at DESC";
+
+        return jdbcTemplate.query(sql, scheduleWithAuthorRowMapper(), params.toArray());
+    }
+
+    private RowMapper<ScheduleWithAuthor> scheduleWithAuthorRowMapper(){
+        return new RowMapper<ScheduleWithAuthor>() {
+            @Override
+            public ScheduleWithAuthor mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new ScheduleWithAuthor(
+                        rs.getLong("author_id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("contents"),
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getTimestamp("modified_at").toLocalDateTime()
+                );
+            }
+        };
     }
 }
