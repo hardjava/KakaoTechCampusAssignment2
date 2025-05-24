@@ -38,6 +38,9 @@ CREATE TABLE schedule
 select *
 from author;
 
+select *
+from schedule;
+
 delete from author;
 
 
