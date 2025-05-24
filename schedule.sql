@@ -12,6 +12,35 @@ CREATE TABLE schedule
     modified_at DATETIME NOT NULL COMMENT 'date modified'
 );
 
+
+-- create table (Lv.3 - 6)
+CREATE TABLE author
+(
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'author identifier',
+    email VARCHAR(50) NOT NULL UNIQUE COMMENT 'author email',
+    name VARCHAR(50) NOT NULL comment 'name',
+    created_at DATETIME NOT NULL COMMENT 'date created',
+    modified_at DATETIME NOT NULL COMMENT 'date modified'
+);
+
+CREATE TABLE schedule
+(
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'schedule identifier',
+    author_id BIGINT NOT NULL COMMENT 'author FK',
+    contents TEXT NOT NULL COMMENT 'to do content',
+    password VARCHAR(50) NOT NULL COMMENT 'password',
+    created_at DATETIME NOT NULL COMMENT 'date created',
+    modified_at DATETIME NOT NULL COMMENT 'date modified',
+    FOREIGN KEY (author_id) REFERENCES author (id) ON DELETE CASCADE
+);
+
+
+select *
+from author;
+
+delete from author;
+
+
 -- drop talbe
 DROP TABLE schedule;
 
