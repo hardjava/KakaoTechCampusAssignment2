@@ -50,7 +50,7 @@ public class AuthorRepositoryImpl implements AuthorRepository{
         String sql = "SELECT * FROM author WHERE id = ?";
         List<Author> result = jdbcTemplate.query(sql, authorRowMapper(), authorId);
 
-        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Author Does Not Found"));
+        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Author Not Found"));
     }
 
     private RowMapper<Author> authorRowMapper(){

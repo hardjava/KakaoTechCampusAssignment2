@@ -35,6 +35,12 @@ CREATE TABLE schedule
 );
 
 
+
+
+
+
+
+-- Test Query
 select *
 from author;
 
@@ -47,9 +53,8 @@ delete from author;
 -- drop talbe
 DROP TABLE schedule;
 
--- select all
-select *
-from schedule;
+drop table author;
+
 
 -- select all using condition and descending by modified_at
 select *
@@ -130,12 +135,12 @@ VALUES ('user10', '할 일 J', 'pass10', '2025-05-01 10:00:00', '2025-05-09 08:0
 
 
 -- Lv3~5 paging test data
-INSERT INTO author (id, email, name, created_at, modified_at) VALUES
-                                                                  (1, 'user1@example.com', 'User One', '2025-05-01 08:00:00', '2025-05-01 08:00:00'),
-                                                                  (2, 'user2@example.com', 'User Two', '2025-05-02 08:00:00', '2025-05-02 08:00:00'),
-                                                                  (3, 'user3@example.com', 'User Three', '2025-05-03 08:00:00', '2025-05-03 08:00:00'),
-                                                                  (4, 'user4@example.com', 'User Four', '2025-05-04 08:00:00', '2025-05-04 08:00:00'),
-                                                                  (5, 'user5@example.com', 'User Five', '2025-05-05 08:00:00', '2025-05-05 08:00:00');
+INSERT INTO author (email, name, created_at, modified_at) VALUES
+                                                                  ( 'user1@example.com', 'User One', '2025-05-01 08:00:00', '2025-05-01 08:00:00'),
+                                                                  ( 'user2@example.com', 'User Two', '2025-05-02 08:00:00', '2025-05-02 08:00:00'),
+                                                                  ( 'user3@example.com', 'User Three', '2025-05-03 08:00:00', '2025-05-03 08:00:00'),
+                                                                  ( 'user4@example.com', 'User Four', '2025-05-04 08:00:00', '2025-05-04 08:00:00'),
+                                                                  ( 'user5@example.com', 'User Five', '2025-05-05 08:00:00', '2025-05-05 08:00:00');
 
 
 

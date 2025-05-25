@@ -75,7 +75,7 @@
 //        String sql = "SELECT * FROM schedule WHERE id = ?";
 //        List<Schedule> result = jdbcTemplate.query(sql, scheduleRowMapper(), id);
 //
-//        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule Does Not Found [ID: " + id + "]"));
+//        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule Not Found"));
 //    }
 //
 //    @Override
