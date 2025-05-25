@@ -49,7 +49,7 @@
 //        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
 //
 //        if (!findSchedule.getPassword().equals(password)){
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Does Not Match Password");
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password Do Not Match");
 //        }
 //
 //        if (username == null && contents == null){
@@ -80,7 +80,7 @@
 //        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
 //
 //        if (!findSchedule.getPassword().equals(password)){
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Does Not Match Password");
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password Do Not Match");
 //        }
 //
 //        scheduleRepository.delete(id);
