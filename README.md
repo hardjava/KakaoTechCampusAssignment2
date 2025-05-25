@@ -801,7 +801,7 @@ HTTP Status - 500 (Internal Server Error)
 
 **`DELETE` /api/schedules/{id}**
 
-## Request Param
+## Path Variable
 
 | **Name** | **Type** | **Required** | **Description** |
 | --- | --- | --- | --- |
